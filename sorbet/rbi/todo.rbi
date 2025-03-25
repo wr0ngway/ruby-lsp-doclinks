@@ -11,5 +11,5 @@ module ActiveSupport::Multibyte::Chars; end
 module ActiveSupport::SafeBuffer; end
 module ActiveSupport::StringInquirer; end
 module ActiveSupport::TimeZone; end
-module RubyLsp::Addon; end
+class RubyLsp::Addon; end
 module RubyLsp::Doclinks::Hover::Requests::Support::Common; end

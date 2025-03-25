@@ -45,6 +45,8 @@ If you'd like to use a yard server or something custom, you can customize the do
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
+Note: The `Gemfile.lock` is included in version control for development purposes only. It helps ensure consistent development dependencies across different environments. This file is not part of the gem package and is not updated during gem releases.
+
 You can point your project to a path based version of the gem with an entry in your Gemfile like:
 ```
   gem "ruby-lsp-doclinks", path: "~/myprojects/ruby-lsp-doclinks"

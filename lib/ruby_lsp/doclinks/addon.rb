@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+# typed: true
+
 
 require "ruby_lsp/addon"
 require "ruby_lsp/requests/support/common"
@@ -37,7 +39,7 @@ module RubyLsp
       end
 
       def version
-        "0.1.0"
+        RubyLsp::Doclinks::VERSION
       end
 
       def create_hover_listener(response_builder, node_context, dispatcher)
@@ -60,44 +62,36 @@ module RubyLsp
       end
 
       def on_constant_read_node_enter(node)
-        # $stderr.puts "#{name} addon handling on_constant_read_node_enter: #{node.inspect} slice=#{node&.slice&.inspect}"
         constant = node.slice
         handle_constant(constant)
       end
 
       def on_constant_path_node_enter(node)
-        # $stderr.puts "#{name} addon handling on_constant_path_node_enter: #{node.inspect} slice=#{node&.slice&.inspect}"
         # Handle nested constants like Foo::Bar
         constant = node.slice
         handle_constant(constant)
       end
 
       def on_call_node_enter(node)
-        # $stderr.puts "#{name} addon handling on_call_node_enter: #{node.name} receiver_slice=#{node&.receiver&.slice&.inspect}"
         # Handle method calls
         constant = node.receiver&.slice
         method = node.name
-        # $stderr.puts "#{name} addon constant=#{constant} method=#{method} node=#{node.inspect}"
         handle_constant(constant, method)
       end
 
       private
 
       def handle_constant(constant, method_name = nil)
-        # $stderr.puts "#{name} addon handling: #{constant}#{method_name ? "##{method_name}" : ""}"
         return unless constant && !constant.empty?
 
         # Check if the word is a gem constant
         gem_info = find_gem_for_constant(constant)
-        # $stderr.puts "#{name} addon gem_info: #{gem_info.inspect}"
         return unless gem_info
 
         # Generate documentation link based on configuration
         doc_link = generate_doc_link(gem_info, constant, method_name)
-        # $stderr.puts "#{name} addon doc_link: #{doc_link}"
         return unless doc_link
 
-        # $stderr.puts "#{name} addon adding hover response"
         display_name = method_name ? "#{constant}##{method_name}" : constant
         content = "\n[View documentation for #{display_name}](#{doc_link})"
         @response_builder.push(content, category: :documentation)
@@ -121,16 +115,14 @@ module RubyLsp
             next if path.nil? || path.empty?
 
             Dir.glob("#{path}/**/*.rb").any? do |file|
-              next if file.nil?
-
               begin
                 content = File.read(file)
-                next if content.nil? || content.empty?
+                next if content.empty?
 
                 # Look for class/module definitions with the exact constant name
                 content.match?(/\b(?:class|module)\s+#{Regexp.escape(constant_name)}\b/)
               rescue => e
-                $stderr.puts "Error reading file #{file}: #{e.message}"
+                # $stderr.puts "Doclinks error reading file #{file}: #{e.message}"
                 false
               end
             end
@@ -157,7 +149,7 @@ module RubyLsp
           constant: constant.gsub("::", "/"),
           method: "#{method_name}#{method_type}"
         }
-        $stderr.puts "#{name} addon doc_url for source=#{source}: #{doc_url}"
+        # $stderr.puts "Doclinks addon doc_url for source=#{source}: #{doc_url}"
 
         doc_url
       end
