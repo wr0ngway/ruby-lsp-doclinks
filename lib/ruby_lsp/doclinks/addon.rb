@@ -2,6 +2,7 @@
 
 require "ruby_lsp/addon"
 require "ruby_lsp/requests/support/common"
+require "ruby_lsp/doclinks/version"
 
 module RubyLsp
   module Doclinks
