@@ -6,10 +6,10 @@
 
 module ::DateAndTime::Calculations; end
 module ::DateAndTime::Zones; end
-module ::RubyLsp::Addon; end
 module ActiveSupport::ArrayInquirer; end
 module ActiveSupport::Multibyte::Chars; end
 module ActiveSupport::SafeBuffer; end
 module ActiveSupport::StringInquirer; end
 module ActiveSupport::TimeZone; end
-module RubyLspDocLinks::Hover::Requests::Support::Common; end
+module RubyLsp::Addon; end
+module RubyLsp::Doclinks::Hover::Requests::Support::Common; end

@@ -4,7 +4,7 @@ require "ruby_lsp/addon"
 require "ruby_lsp/requests/support/common"
 
 module RubyLsp
-  module DocLinks
+  module Doclinks
     class Addon < ::RubyLsp::Addon
       def initialize
         super

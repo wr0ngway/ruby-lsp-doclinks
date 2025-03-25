@@ -5,7 +5,7 @@ require "ruby_lsp/doclinks/addon"
 
 class RubyLsp::Doclinks::AddonTest < Minitest::Test
   def test_my_addon_works
-    assert_equal "Doclinks", RubyLsp::DocLinks::Addon.new.name
+    assert_equal "Doclinks", RubyLsp::Doclinks::Addon.new.name
 
     # TODO: figure out how to test this
     #
