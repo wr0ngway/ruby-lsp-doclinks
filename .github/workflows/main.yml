@@ -23,7 +23,5 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Configure Bundler
-        run: bundle config set --local frozen false
       - name: Run the default task
         run: bundle exec rake
